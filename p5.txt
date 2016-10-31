@@ -72,7 +72,7 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
  ** ¿Qué método SIP utiliza el UA para registrarse?
         Utiliza el REGISTER
  ** Además de REGISTER, ¿qué instrucciones SIP entiende el UA?
-        SUBSCRIBE, INVITE y BYE
+        INVITE, BYE, ACK, OPTIONS, CANCEL, NOTIFY, REFER, MESSAGE
 
 
 
@@ -80,8 +80,11 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
 
 9. Fijémonos en las tramas siguientes a la número 46:
  ** ¿Se registra con éxito en el primer intento?
+        No
  ** ¿Cómo sabemos si el registro se ha realizado correctamente o no?
+        Porque el server responde con un 200 OK. En este caso ha respondido con un 401 Unauthorized
  ** ¿Podrías identificar las diferencias entre el primer intento y el segundo de registro? (fíjate en el tamaño de los paquetes y mira a qué se debe el cambio)
+        
  ** ¿Cuánto es el valor del tiempo de expiración de la sesión? Indica las unidades.
 
 
