@@ -84,24 +84,33 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
  ** ¿Cómo sabemos si el registro se ha realizado correctamente o no?
         Porque el server responde con un 200 OK. En este caso ha respondido con un 401 Unauthorized
  ** ¿Podrías identificar las diferencias entre el primer intento y el segundo de registro? (fíjate en el tamaño de los paquetes y mira a qué se debe el cambio)
-        
+        Se debe al campo nonce de Authorization, donde el cliente debe devolver el hash que le ha mandado el server en el mensaje de error
  ** ¿Cuánto es el valor del tiempo de expiración de la sesión? Indica las unidades.
+        3600 segundos
 
 
 10. Una vez registrados, podemos efectuar una llamada. Vamos a probar con el servicio de eco de Ekiga que nos permite comprobar si nos hemos conectado correctamente. El servicio de eco tiene la dirección sip:500@ekiga.net. Veamos el INVITE de cerca.
  ** ¿Puede verse el nombre del que efectúa la llamada, así como su dirección SIP?
+        Sí, en el campo From de la cabecera
  ** ¿Qué es lo que contiene el cuerpo de la trama? ¿En qué formato/protocolo está?
+        Contenido multimedia (audio y vídeo). En SDP.
  ** ¿Tiene éxito el primer intento? ¿Cómo lo sabes?
+        No, porque el server no manda un 200 Ok si no un 407 Proxy Authentication Required
  ** ¿En qué se diferencia el segundo INVITE más abajo del primero? ¿A qué crees que se debe esto?
+        En la longitud de la trama. Se debe al campo de autenticación, donde debe reenviar el número nonce.
 
 
 11. Una vez conectado, estudia el intercambio de tramas.
  ** ¿Qué protocolo(s) se utiliza(n)? ¿Para qué sirven estos protocolos?
+        RTP y H.261. Sirven para la transmisión de audio y vídeo y para su codificación.
  ** ¿Cuál es el tamaño de paquete de los mismos?
+        214 bytes para el caso de RTP. Un tamaño de 1000 y otra de 300 aproximadamente para H.261.
  ** ¿Se utilizan bits de padding?
+        No, ya que el flag P siempre es 0 o False.
  ** ¿Cuál es la periodicidad de los paquetes que se envían?
+        No hay una periodicidad exacta, pero más o menos sería 5-7 paquetes RTP y 2 H.261
  ** ¿Cuántos bits/segundo estamos enviando?
-
+        El flujo es muy irregular, pero alrededor de 8560-11984 de RTP y 10400 de H.261
 
 
 [Al terminar el ejercicio es recomendable hacer commit de los ficheros modificados]
