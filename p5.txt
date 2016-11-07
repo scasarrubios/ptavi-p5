@@ -108,7 +108,7 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
  ** ¿Se utilizan bits de padding?
         No, ya que el flag P siempre es 0 o False.
  ** ¿Cuál es la periodicidad de los paquetes que se envían?
-        No hay una periodicidad exacta, pero más o menos sería 5-7 paquetes RTP y 2 H.261
+        Para el caso del audio, la periodicidad es de 20 ms. Para el caso del video es más complicado determinar una periodicidad debido a la variación.
  ** ¿Cuántos bits/segundo estamos enviando?
         El flujo es muy irregular, pero alrededor de 8560-11984 de RTP y 10400 de H.261
 
@@ -154,14 +154,16 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
  ** ¿En qué trama(s)?
         924, 925, 927 y 933.
  ** ¿Por qué crees que se envía varias veces?
-        Porque se sigue reenviando hasta que recibe el 200 OK.
+        Porque se quiere asegurar de que el mensaje le llega al server sin necesidad de esperar el OK.
 
 
 16. Finalmente, se cierra la aplicación de VozIP.
  ** ¿Por qué aparece una instrucción SIP del tipo REGISTER?
+        Para darse de baja en el servidor.
  ** ¿En qué trama sucede esto?
+        En la trama 950.
  ** ¿En qué se diferencia con la instrucción que se utilizó con anterioridad (al principio de la sesión)?
-
+        En el campo Expires. En este caso es 0 para darse de baja, y en el primer caso era 3600.
 
 
 [Al terminar el ejercicio es recomendable hacer commit de los ficheros modificados]
@@ -175,16 +177,22 @@ Captura una sesión SIP de una conversación con el número SIP sip:9999@qxip.ne
 
 17. Observa las diferencias en el inicio de la conversación entre el entorno del laboratorio y el del ejercicio anterior:
  ** ¿Es necesario el uso de DNS y STUN? ¿Por qué?
+        DNS sí es necesario, pero STUN no lo es, ya que no estamos tras un router NAT. Aún así se realiza la comprobación y hay algunos paquetes STUN.
  ** ¿Son diferentes el registro y la descripción de la sesión?
+        El registro sigue la misma estructura, pero la descripción de la sesión sí cambia.
 
 
 18. Identifica las diferencias existentes entre esta conversación y la conversación anterior:
  ** ¿Cuántos flujos tenemos?
+        También tenemos dos flujos, pero no se trata de uno de audio y uno de video como en la conversación anterior (ambos al mismo destino), sino que tenemos dos flujos de audio, uno de ida y otr de vuelta (por así decirlo).
  ** ¿Cuál es su periodicidad?
+        La periodicidad es de 20 ms
  ** ¿Cuánto es el valor máximo del delta y los valores medios y máximo del jitter?
+       El valor del delta máximo es 30.593 ms para la ida y 55.256 ms para la vuelta. Los valores de jitter medio son 3.119 y 1.080 y los de jitter máximo son 4.404 y 6.336 respectivamente.
  ** ¿Podrías reproducir la conversación desde Wireshark? ¿Cómo? Comprueba que poniendo un valor demasiado pequeño para el buffer de jitter, la conversación puede no tener la calidad necesaria.
- ** ¿Sabrías decir qué tipo de servicio ofrece sip:9999@qxip.net?
-
+        No. Debería ser posible reporducirlo desde Telephony --> RTP --> Stream Analysis --> Play Streams
+ ** ¿Sabrías decir qué tipo de servicio ofrece sip:music@iptel.org?
+        Reproduce una canción.
 
 
 [Al terminar el ejercicio es recomendable hacer commit de los ficheros modificados]
